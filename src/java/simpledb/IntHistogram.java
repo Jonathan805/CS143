@@ -48,9 +48,9 @@ public class IntHistogram {
     	    left = new int[temp];
     	    right = new int[temp];
     	    bucket_size = 1;
-    	    buckets = range;
+    	    buckets = temp;
     	}
-    	else{//buckets > temp , so bucket size > 1
+    	else{//buckets > temp , so bucket size > 1, use buckets
     	    hintogram = new int[buckets];
     	    left = new int[buckets];
     	    right = new int [buckets];
@@ -85,9 +85,10 @@ public class IntHistogram {
     	        temp = 0;
     	    }
     	    else{
-    	        //calculate the index
-    	        temp = (int)Math.round((v - this.min)/bucket_size);
-    	        if (temp == buckets){
+    	        //calculate the index, scale with size of bucket
+    	        double tempd = (v - this.min)/bucket_size;
+    	        temp = (int)Math.round(tempd); //index needs to be int
+    	        if (temp == buckets){//if we happen to round up to buckets, that index doesn't exist
     	            temp -= 1;
     	        }
     	    }//end else
@@ -96,17 +97,23 @@ public class IntHistogram {
     	    hintogram[temp]+=1; //h_b
     	    //new hintogram bucket?
     	    if (hintogram[temp] == 1){
+    	        //new bar, new data
     	        left[temp] = v;
     	        right[temp] = v;
     	    }
     	    else{
-    	        if (v < left[temp]){
-    	            //update left
-    	            left[temp] = v;
-    	        }
-    	        if (v > right[temp]){
-    	            right[temp] = v;
-    	        }
+    	        //if bucket size is larger than 1 then we need to update some data
+    	        //don't have to if size is equal 1
+    	        if (this.bucket_size != 1){
+    	            if (v < left[temp]){
+        	            //update left
+        	            left[temp] = v;
+        	        }
+        	        if (v > right[temp]){
+        	            //update right
+        	            right[temp] = v;
+        	        }
+    	       }
     	    }
     	}
     }
@@ -124,7 +131,7 @@ public class IntHistogram {
     public double estimateSelectivity(Predicate.Op op, int v) {
 
     	// some code goes here
-        return -1.0;
+        //return -1.0;
     }
     
     /**
