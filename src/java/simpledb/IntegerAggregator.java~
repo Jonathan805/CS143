@@ -1,0 +1,118 @@
+package simpledb;
+
+/**
+ * Knows how to compute some aggregate over a set of IntFields.
+ */
+public class IntegerAggregator implements Aggregator {
+
+    private static final long serialVersionUID = 1L;
+    private int field;
+    private int fieldtype;
+    private int fielda;
+    private Op po;
+    private tupleDesc td;
+    private HashMap<Field,  ArrayList<Integer>> map;
+    private ArrayList<Tuple> list;
+
+    /**
+     * Aggregate constructor
+     * 
+     * @param gbfield
+     *            the 0-based index of the group-by field in the tuple, or
+     *            NO_GROUPING if there is no grouping
+     * @param gbfieldtype
+     *            the type of the group by field (e.g., Type.INT_TYPE), or null
+     *            if there is no grouping
+     * @param afield
+     *            the 0-based index of the aggregate field in the tuple
+     * @param what
+     *            the aggregation operator
+     */
+
+    public IntegerAggregator(int gbfield, Type gbfieldtype, int afield, Op what) {
+        // some code goes here
+        this->field = gbfield;
+        this->fieldtype = fbfieldtype;
+        this->fielda = afield;
+        this->po = what;
+        this->map = new HashMap<Field, ArrayList<Integer>>();
+        this->list = new ArrayList<Tuple>();
+
+        //check if there is no grouping
+        if (gbfield == Aggregator.NO_GROUPING){
+          Type [] temp = {Type.INT_TYPE};
+          this.td = new tupleDesc(temp);
+        }
+        else{
+          Type [] temp = {gbfieldtype, Type.INT_TYPE};
+          this.td = new tupleDesc(temp);
+        }
+    }
+
+    /**
+     * Merge a new tuple into the aggregate, grouping as indicated in the
+     * constructor
+     * 
+     * @param tup
+     *            the Tuple containing an aggregate field and a group-by field
+     */
+    public void mergeTupleIntoGroup(Tuple tup) {
+        // some code goes herei
+        // check the op from the contstructor
+        //merge, so we check the gb field for type irst
+        if (this->field == Aggregator.NO_GROUPING){
+         // if (this->list.size() == 0){
+         // }
+            switch(po){
+            case SUM:
+
+              break;
+            case MIN:
+              //to check min use GREATERTHAN
+              if (this->list.get(0).getField(fielda).compare(Predicate.Op.GREATER_THAN, tup.getField(fielda))){
+                list.set(0, tup);
+              }
+              break;
+            case MAX:
+              if (this->list.get(0).getField(fielda).compare(Predicate.Op.LESS_THAN, tup.getField(fielda))){
+                list.set(0, tup);
+              }
+              break;
+            case AVG:
+              break;
+            case COUNT:
+              break;
+            }
+
+        }
+        else {//there is grouping
+          switch(po){
+          case SUM:
+            break;
+          case MIN:
+            break;
+          case MAX:
+            break;
+          case AVG:
+            break;
+          case COUNT:
+            break;
+          }
+        }
+    }
+
+    /**
+     * Create a DbIterator over group aggregate results.
+     * 
+     * @return a DbIterator whose tuples are the pair (groupVal, aggregateVal)
+     *         if using group, or a single (aggregateVal) if no grouping. The
+     *         aggregateVal is determined by the type of aggregate specified in
+     *         the constructor.
+     */
+    public DbIterator iterator() {
+        // some code goes here
+        throw new
+        UnsupportedOperationException("please implement me for lab2");
+    }
+
+}

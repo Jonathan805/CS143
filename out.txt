@@ -1,0 +1,18 @@
+Buildfile: /home/saasbook/lab2/CS143/CS143-lab2/build.xml
+
+compile:
+    [javac] Compiling 1 source file to /home/saasbook/lab2/CS143/CS143-lab2/bin/src
+
+testcompile:
+
+runtest:
+    [junit] Running simpledb.StringAggregatorTest
+    [junit] Testsuite: simpledb.StringAggregatorTest
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.057 sec
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.057 sec
+    [junit] 
+    [junit] Testcase: mergeCount took 0.023 sec
+    [junit] Testcase: testIterator took 0.003 sec
+
+BUILD SUCCESSFUL
+Total time: 2 seconds
