@@ -3,6 +3,18 @@ package simpledb;
 /** A class to represent a fixed-width histogram over a single integer-based field.
  */
 public class IntHistogram {
+    private int buckets;
+    private int min;
+    private int max;
+    
+    private int hintogram[];
+    private int left[];// b.left
+    private int right[];
+    
+    
+    private int values;
+    
+    private double bucket_size;
 
     /**
      * Create a new IntHistogram.
@@ -22,6 +34,33 @@ public class IntHistogram {
      */
     public IntHistogram(int buckets, int min, int max) {
     	// some code goes here
+    	buckets = buckets;
+    	min = min;
+    	max = max;
+    	
+    	
+    	
+    	//create the histogram with (buckets)
+    	//careful if we have more buckets than we do range
+    	int temp = max - min + 1; // number of ints in our range
+    	if ( temp < buckets){//we have small range, so each int will get a bucket
+    	    hintogram = new int[temp];
+    	    left = new int[temp];
+    	    right = new int[temp];
+    	    bucket_size = 1;
+    	    buckets = range;
+    	}
+    	else{//buckets > temp , so bucket size > 1
+    	    hintogram = new int[buckets];
+    	    left = new int[buckets];
+    	    right = new int [buckets];
+    	    bucket_size =( double)temp/(double)(buckets);
+    	    
+    	}
+    	
+    	
+    	//we have no values :(
+    	values = 0;
     }
 
     /**
@@ -30,6 +69,46 @@ public class IntHistogram {
      */
     public void addValue(int v) {
     	// some code goes here
+    	if (v < this.min || v > this.max){
+    	    //invalid, do nothing
+    	}
+    	else{
+    	    //add to histogram
+    	    values+=1;
+    	    //add one to corresponding bucket
+    	    //bucket index = v-min/bucket_size
+    	    int temp;
+    	    if (v == this.max){
+    	        temp = this.buckets -1;
+    	    }
+    	    else if (v == this.min){
+    	        temp = 0;
+    	    }
+    	    else{
+    	        //calculate the index
+    	        temp = (int)Math.round((v - this.min)/bucket_size);
+    	        if (temp == buckets){
+    	            temp -= 1;
+    	        }
+    	    }//end else
+    	    
+    	    //temp is index of bucket to add
+    	    hintogram[temp]+=1; //h_b
+    	    //new hintogram bucket?
+    	    if (hintogram[temp] == 1){
+    	        left[temp] = v;
+    	        right[temp] = v;
+    	    }
+    	    else{
+    	        if (v < left[temp]){
+    	            //update left
+    	            left[temp] = v;
+    	        }
+    	        if (v > right[temp]){
+    	            right[temp] = v;
+    	        }
+    	    }
+    	}
     }
 
     /**
