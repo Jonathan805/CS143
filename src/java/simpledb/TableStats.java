@@ -65,7 +65,9 @@ public class TableStats {
      * histograms.
      */
     static final int NUM_HIST_BINS = 100;
-
+    private int tableid;
+    private int cost;
+    private HeapFile file;
     /**
      * Create a new TableStats object, that keeps track of statistics on each
      * column of a table
@@ -85,6 +87,18 @@ public class TableStats {
         // necessarily have to (for example) do everything
         // in a single scan of the table.
         // some code goes here
+        cost = ioCostPerPage;
+        tableid = tableid;
+        //get dbfile
+        file = (HeapFile) Database.getCatalog().getDbFile(tableid);
+        //scan through tuples
+        try{
+            TransactionId tempid = new TransactionId();
+            //create iterator
+            
+        }catch(Exception e){
+            
+        }
     }
 
     /**
