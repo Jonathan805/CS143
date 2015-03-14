@@ -34,21 +34,26 @@ public class IntHistogram {
      */
     public IntHistogram(int buckets, int min, int max) {
     	// some code goes here
-    	buckets = buckets;
-    	min = min;
-    	max = max;
+
+    	this.buckets = buckets;
+    	this.min = min;
+    	this.max = max;
     	
     	
     	
     	//create the histogram with (buckets)
     	//careful if we have more buckets than we do range
     	int temp = max - min + 1; // number of ints in our range
+        //for test inthistogram(10000, 0,100)
+        //we should have 10k buckets but only 100 values, so create 100 buckets
     	if ( temp < buckets){//we have small range, so each int will get a bucket
     	    hintogram = new int[temp];
     	    left = new int[temp];
     	    right = new int[temp];
     	    bucket_size = 1;
-    	    buckets = temp;
+    	    this.buckets = temp;
+            //System.out.println("this is legal");
+            // buckets = temp;
     	}
     	else{//buckets > temp , so bucket size > 1, use buckets
     	    hintogram = new int[buckets];
@@ -68,6 +73,7 @@ public class IntHistogram {
      * @param v Value to add to the histogram
      */
     public void addValue(int v) {
+        //System.out.println(buckets);
     	// some code goes here
     	if (v < this.min || v > this.max){
     	    //invalid, do nothing
@@ -75,24 +81,25 @@ public class IntHistogram {
     	else{
     	    //add to histogram
     	    values+=1;
+            //System.out.println("added value");
     	    //add one to corresponding bucket
     	    //bucket index = v-min/bucket_size
     	    int temp;
     	    if (v == this.max){
-    	        temp = this.buckets -1;
+    	        temp = this.buckets -1; //last bucket
     	    }
     	    else if (v == this.min){
-    	        temp = 0;
+    	        temp = 0;                  //first bucket
     	    }
     	    else{
     	        //calculate the index, scale with size of bucket
     	        double tempd = (v - this.min)/bucket_size;
     	        temp = (int)Math.round(tempd); //index needs to be int
     	        if (temp == buckets){//if we happen to round up to buckets, that index doesn't exist
-    	            temp -= 1;
+    	            temp -= 1;//start from 0
     	        }
     	    }//end else
-    	    
+    	    System.out.println(temp + " " + buckets + " " + v);
     	    //temp is index of bucket to add
     	    hintogram[temp]+=1; //h_b
     	    //new hintogram bucket?
@@ -129,7 +136,7 @@ public class IntHistogram {
      * @return Predicted selectivity of this particular operator and value
      */
     public double estimateSelectivity(Predicate.Op op, int v) {
-
+        System.out.println("here");
     	// some code goes here
         //return -1.0;
         //OP can equal Predicate.Op.EQUALS
@@ -141,6 +148,7 @@ public class IntHistogram {
         
         if (op == Predicate.Op.EQUALS){
             //check if in range
+            System.out.println("in equals");
             if (v > this.max || v < this.max){
                 //no selectivity at all!
                 return 0.0;
@@ -169,16 +177,16 @@ public class IntHistogram {
         	       //   height
         	       //   width * values
         	   }
-            }
-        }
+            }//end if
+        }//end equals
         else if (op == Predicate.Op.NOT_EQUALS){
             //not equal means excluding value for V
             //for histogram we can sum the values greather thana nd less than v
             return (estimateSelectivity(Predicate.Op.GREATER_THAN, v) + estimateSelectivity(Predicate.Op.LESS_THAN, v));
-        }
+        }//end not equals
         else if (op == Predicate.Op.GREATER_THAN){
             //check if in range
-            if (v < thix.min) return 1.0;
+            if (v < this.min) return 1.0;
             if (v > this.max) return 0.0;
             //we have to know the largest value of bucket
             //need right array and left array
@@ -203,7 +211,7 @@ public class IntHistogram {
                     }
                     //if v is within a bucket, we need to estimate within the bucket, use the right value
                     double buck_sel = 1.0;
-                    if (v > this.lowest[i]){
+                    if (v > this.left[i]){
                         
                         buck_sel = ((double) (this.right[i] - v)/(double) width);
                     }
@@ -211,7 +219,7 @@ public class IntHistogram {
                     
                 }
                 return ans;
-	        }
+	        }//end if right{index]
 	        else{
 	            //v is the greatest part of the histogram, we can include the whole thing
 	            //similar to previous code, but we start fro mthe next index
@@ -229,7 +237,7 @@ public class IntHistogram {
                     }
                     //if v is within a bucket, we need to estimate within the bucket, use the right value
                     double buck_sel = 1.0;
-                    if (v > this.lowest[i]){
+                    if (v > this.left[i]){
                         
                         buck_sel = ((double) (this.right[i] - v)/(double) width);
                     }
@@ -238,25 +246,28 @@ public class IntHistogram {
                 }
                 return ans;
 	            
-	        }
+	        }//end else
             
-        }
-        else if (op == Predicate.OP.GREATER_THAN_OR_EQ){
+        }//end greater than
+        else if (op == Predicate.Op.GREATER_THAN_OR_EQ){
             //we ahve equals and greater than
             //sum the two
             return estimateSelectivity(Predicate.Op.EQUALS, v)+
                         estimateSelectivity(Predicate.Op.GREATER_THAN, v);
         }
-        else if (op == Predicate.OP.LESS_THAN){
+        else if (op == Predicate.Op.LESS_THAN){
             //we have greater than or equal to 
             return (1.0 - estimateSelectivity(Predicate.Op.GREATER_THAN_OR_EQ, v));
         }
-        else if (op == Predicate.OP.LESS_THAN_OR_EQ){
+        else if (op == Predicate.Op.LESS_THAN_OR_EQ){
             //we have greater than
             return (1.0 - estimateSelectivity(Predicate.Op.GREATER_THAN, v));
             
         }
-        
+        else{
+            //bad instruction?
+            return 0.0;
+        }
         
     }
     
