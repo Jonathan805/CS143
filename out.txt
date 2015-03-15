@@ -1,26 +1,29 @@
 Buildfile: /home/saasbook/Lab3/CS143/build.xml
 
 compile:
-    [javac] Compiling 1 source file to /home/saasbook/Lab3/CS143/bin/src
 
 testcompile:
+    [javac] Compiling 1 source file to /home/saasbook/Lab3/CS143/bin/test
 
 runtest:
     [junit] Running simpledb.IntHistogramTest
     [junit] Testsuite: simpledb.IntHistogramTest
-    [junit] Tests run: 1, Failures: 1, Errors: 0, Time elapsed: 0.069 sec
-    [junit] Tests run: 1, Failures: 1, Errors: 0, Time elapsed: 0.069 sec
+    [junit] Tests run: 8, Failures: 0, Errors: 0, Time elapsed: 0.508 sec
+    [junit] Tests run: 8, Failures: 0, Errors: 0, Time elapsed: 0.508 sec
     [junit] ------------- Standard Output ---------------
-    [junit] value of v is5.0
-    [junit] total buckets are51.0
-    [junit] sel = 0.09803921568627451
-    [junit] c is 0.09803921568627451
-    [junit] 0.0
+    [junit] selectivity is 0.2for 2
+    [junit] selectivity is 0.8for 3
+    [junit] selectivity is 0.8for 4
     [junit] ------------- ---------------- ---------------
     [junit] 
-    [junit] Testcase: negativeRangeTest took 0.027 sec
-    [junit] 	FAILED
-    [junit] 
-    [junit] junit.framework.AssertionFailedError: 
-    [junit] 	at simpledb.IntHistogramTest.negativeRangeTest(IntHistogramTest.java:61)
-    [junit] 
+    [junit] Testcase: orderOfGrowthTest took 0.435 sec
+    [junit] Testcase: negativeRangeTest took 0 sec
+    [junit] Testcase: opEqualsTest took 0 sec
+    [junit] Testcase: opGreaterThanTest took 0.001 sec
+    [junit] Testcase: opLessThanTest took 0 sec
+    [junit] Testcase: opGreaterThanOrEqualsTest took 0.001 sec
+    [junit] Testcase: opLessThanOrEqualsTest took 0.001 sec
+    [junit] Testcase: opNotEqualsTest took 0 sec
+
+BUILD SUCCESSFUL
+Total time: 4 seconds

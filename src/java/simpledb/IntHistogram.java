@@ -143,8 +143,9 @@ public class IntHistogram {
         if (op == Predicate.Op.EQUALS){
             //check if in range
             //System.out.println("in equals");
-            if (v > this.max || v < this.max){
+            if (v > this.max || v < this.min){
                 //no selectivity at all!
+              // System.out.println("bugged for " + v);
                 return 0.0;
             }
             else{
@@ -160,12 +161,13 @@ public class IntHistogram {
         	    
                 double a = hintogram[index];
                 double b = values;
-                System.out.println("value of v is" + a);
-                System.out.println("total buckets are" + b);
-                System.out.println("sel = " + (double)(a/b));
-                double c = (a/b);
-                System.out.println("c is " + c);
-        	    return c;
+                // System.out.println("value of v is" + a);
+                // System.out.println("total buckets are" + b);
+                // System.out.println("sel = " + (double)(a/b));
+                double c = 0;
+                c = ((double)a/(double)b);
+                //System.out.println("c is " + c);
+        	    return (double)hintogram[index]/(double)values;
             }//end if
         }//end equals
         else if (op == Predicate.Op.NOT_EQUALS){
@@ -192,6 +194,7 @@ public class IntHistogram {
 	     	count += hintogram[i];
 	     	
 	     }
+         // System.out.println("selectivity is " + (double)count/(double)values + "for " + v);
 	        return (double)count/(double)values;
 
             
@@ -207,8 +210,35 @@ public class IntHistogram {
             return (1.0 - estimateSelectivity(Predicate.Op.GREATER_THAN_OR_EQ, v));
         }
         else if (op == Predicate.Op.LESS_THAN_OR_EQ){
-            //we have greater than
-            return (1.0 - estimateSelectivity(Predicate.Op.GREATER_THAN, v));
+            //check if in range
+            if (v < this.min) return 0.0;
+            if (v > this.max) return 1.0;
+            //we have to know the largest value of bucket
+            //need right array and left array
+            int index;
+            double tempd = ((double)(v - this.min))/(double)bucket_size;
+            index = (int)Math.round(tempd); //index needs to be int
+            if (index == this.nbuckets){
+                index -= 1;
+            }
+
+         int count = 0;
+         for (int i = index; i < this.nbuckets; i++){
+            //from this bucket to the end
+            count += hintogram[i];
+            
+         }
+         double temp1 = ((double)(values - count)/(double)values);
+         temp1 = temp1 + estimateSelectivity(Predicate.Op.EQUALS, v);
+          System.out.println("selectivity is " + temp1 + "for " + v);
+            return temp1;
+
+
+
+            //old
+            // //we have greater than
+            //  System.out.println("selectivity is " + estimateSelectivity(Predicate.Op.GREATER_THAN, v) + "for " + v);
+            // return (1.0 - estimateSelectivity(Predicate.Op.GREATER_THAN, v));
             
         }
         else{
