@@ -281,7 +281,7 @@ public class TableStats {
         //use field for which histogram
         //use value of constant for value in estimate
         if (constant.getType() == Type.INT_TYPE){
-            System.out.println("Checking" + field);
+            //System.out.println("Checking" + field);
             IntHistogram temp = iHist[field];
             IntField i_f = (IntField)constant;
             int val = i_f.getValue();
@@ -291,7 +291,7 @@ public class TableStats {
             return temp.estimateSelectivity(op, val);
         }
         if (constant.getType() == Type.STRING_TYPE){
-            System.out.println("Scanning" + field);
+            //System.out.println("Scanning" + field);
             StringHistogram temp = jHist[field];
             StringField s_f = (StringField)constant;
             String val = s_f.getValue();
