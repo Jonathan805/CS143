@@ -230,7 +230,7 @@ public class IntHistogram {
          }
          double temp1 = ((double)(values - count)/(double)values);
          temp1 = temp1 + estimateSelectivity(Predicate.Op.EQUALS, v);
-          System.out.println("selectivity is " + temp1 + "for " + v);
+          //System.out.println("selectivity is " + temp1 + "for " + v);
             return temp1;
 
 
