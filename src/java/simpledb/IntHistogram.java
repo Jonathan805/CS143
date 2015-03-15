@@ -33,7 +33,7 @@ public class IntHistogram {
      */
     public IntHistogram(int buckets, int min, int max) {
     	// some code goes here
-      System.out.println("started constructor");
+      //System.out.println("started constructor");
     	this.nbuckets = buckets;
     	this.min = min;
     	this.max = max;
@@ -65,7 +65,7 @@ public class IntHistogram {
     	for (int i = 0; i < this.nbuckets; i++){
     		hintogram[i] = 0;
     	}
-      System.out.println("ended IntHistogram constructor");
+      //System.out.println("ended IntHistogram constructor");
     }
 
 
@@ -175,13 +175,19 @@ public class IntHistogram {
                 double c = 0;
                 c = ((double)a/(double)b);
                 //System.out.println("c is " + c);
-        	    return (double)hintogram[index]/(double)values;
+        	    double temp2 =  (double)hintogram[index]/(double)values;
+              if (temp2 < 0.0) temp2 = 0;
+            if (temp2 > 1.0) temp2 = 1.0;
+            return temp2;
             }//end if
         }//end equals
         else if (op == Predicate.Op.NOT_EQUALS){
             //not equal means excluding value for V
             //for histogram we can sum the values greather thana nd less than v
-            return (estimateSelectivity(Predicate.Op.GREATER_THAN, v) + estimateSelectivity(Predicate.Op.LESS_THAN, v));
+            double temp2 = (estimateSelectivity(Predicate.Op.GREATER_THAN, v) + estimateSelectivity(Predicate.Op.LESS_THAN, v));
+            if (temp2 < 0.0) temp2 = 0;
+            if (temp2 > 1.0) temp2 = 1.0;
+            return temp2;
         }//end not equals
         else if (op == Predicate.Op.GREATER_THAN){
             //check if in range
@@ -203,19 +209,27 @@ public class IntHistogram {
 	     	
 	     }
          // System.out.println("selectivity is " + (double)count/(double)values + "for " + v);
-	        return (double)count/(double)values;
+	        double temp2 =  (double)count/(double)values;
+          if (temp2 < 0.0) temp2 = 0;
+            if (temp2 > 1.0) temp2 = 1.0;
+            return temp2;
 
             
         }//end greater than
         else if (op == Predicate.Op.GREATER_THAN_OR_EQ){
             //we ahve equals and greater than
             //sum the two
-            return estimateSelectivity(Predicate.Op.EQUALS, v)+
-                        estimateSelectivity(Predicate.Op.GREATER_THAN, v);
+            double temp2 =  estimateSelectivity(Predicate.Op.EQUALS, v) + estimateSelectivity(Predicate.Op.GREATER_THAN, v);
+            if (temp2 < 0.0) temp2 = 0;
+            if (temp2 > 1.0) temp2 = 1.0;
+            return temp2;
         }
         else if (op == Predicate.Op.LESS_THAN){
             //we have greater than or equal to 
-            return (1.0 - estimateSelectivity(Predicate.Op.GREATER_THAN_OR_EQ, v));
+            double temp2 = (1.0 - estimateSelectivity(Predicate.Op.GREATER_THAN_OR_EQ, v));
+            if (temp2 < 0.0) temp2 = 0;
+            if (temp2 > 1.0) temp2 = 1.0;
+            return temp2;
         }
         else if (op == Predicate.Op.LESS_THAN_OR_EQ){
             //check if in range
@@ -239,6 +253,9 @@ public class IntHistogram {
          double temp1 = ((double)(values - count)/(double)values);
          temp1 = temp1 + estimateSelectivity(Predicate.Op.EQUALS, v);
           //System.out.println("selectivity is " + temp1 + "for " + v);
+         if (temp1 < 0.0) temp1 = 0;
+            if (temp1 > 1.0) temp1 = 1.0;
+            //return temp2;
             return temp1;
 
 

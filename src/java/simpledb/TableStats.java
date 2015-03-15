@@ -113,14 +113,15 @@ public class TableStats {
             temp.open();
             //get statistics like min, max,
             while (temp.hasNext()){
+                tupnum = tupnum + 1;
                 Tuple tup = temp.next();
                 if (this.max == null){//create array
-                    System.out.println("arrays created");
+                    //System.out.println("arrays created");
                     this.max = new int[size];
                     this.min = new int[size];
                 }
                 //for each element
-                System.out.println("before adding values");
+               // System.out.println("before adding values");
                 for (int i = 0; i < size; i++){
                     Field f = tup.getField(i);
                     if (f.getType() == Type.INT_TYPE){
@@ -134,20 +135,21 @@ public class TableStats {
 
 
             }//end while
+            System.out.println(tupnum);
 
             //create histograms
             iHist = new IntHistogram[size];
             jHist = new StringHistogram[size];
-            System.out.println("size is" + size);
+           // System.out.println("size is" + size);
             //now initialize the histogram values
             for (int i = 0; i < size; i+=1){
                 Type te = td.getFieldType(i);
                 if (te == Type.INT_TYPE){
 
-                    System.out.println(min[i]  + " " + max[i]) ;
+                    //System.out.println(min[i]  + " " + max[i]) ;
                     //givein our min and max calculated earlier, we can create inthistogram
                     iHist[i] = new IntHistogram(NUM_HIST_BINS, min[i], max[i]);
-                    System.out.println("created intHist" + i);  
+                   // System.out.println("created intHist" + i);  
                 }
                 if (te == Type.STRING_TYPE){
                     jHist[i] = new StringHistogram(NUM_HIST_BINS);
@@ -160,11 +162,12 @@ public class TableStats {
             temp.rewind();
             System.out.println("rewinded inc onstructor");
             while (temp.hasNext()){
-                tupnum = tupnum + 1;
+                
                 Tuple tup = temp.next();
                 //now we insert into histogram
                 //for each eleemtn
                 for (int i =0; i < size; i++){
+                    //System.out.println("added tuple");
                     Field f = tup.getField(i);
                     //check the types
                     if (f.getType() == Type.INT_TYPE){
@@ -183,6 +186,7 @@ public class TableStats {
                     }
                 else{/*do nothing*/}
                 }//end for loop
+                //System.out.println("finished adding tuples");
             }//end while
             Database.getBufferPool().transactionComplete(tempid);
         }catch(Exception e){
@@ -222,11 +226,11 @@ public class TableStats {
     public int estimateTableCardinality(double selectivityFactor) {
         // some code goes here
         //return 0;
-        System.out.println("totalTuples is " + totalTuples());
+        //System.out.println("totalTuples is " + totalTuples());
         double temp = totalTuples() * selectivityFactor;
         //return temp;
         //convert to int >.>
-        System.out.println("Cardinatlity is " + temp);
+        //System.out.println("Cardinatlity is " + temp);
         return (int)Math.floor(temp);
     }
 
@@ -283,6 +287,7 @@ public class TableStats {
             int val = i_f.getValue();
             if (temp == null)
                 System.out.println("you done goofed");
+            System.out.println( temp.estimateSelectivity(op, val));
             return temp.estimateSelectivity(op, val);
         }
         if (constant.getType() == Type.STRING_TYPE){
