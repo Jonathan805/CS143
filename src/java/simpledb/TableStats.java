@@ -12,7 +12,12 @@ import java.util.concurrent.ConcurrentHashMap;
  * This class is not needed in implementing lab1 and lab2.
  */
 public class TableStats {
-
+    private int tableid;
+    private int cost;
+    private HeapFile hF;
+    private int min[];
+    private int max[];
+    private int size;
     private static final ConcurrentHashMap<String, TableStats> statsMap = new ConcurrentHashMap<String, TableStats>();
 
     static final int IOCOSTPERPAGE = 1000;
@@ -65,9 +70,7 @@ public class TableStats {
      * histograms.
      */
     static final int NUM_HIST_BINS = 100;
-    private int tableid;
-    private int cost;
-    private HeapFile file;
+    
     /**
      * Create a new TableStats object, that keeps track of statistics on each
      * column of a table
@@ -87,14 +90,29 @@ public class TableStats {
         // necessarily have to (for example) do everything
         // in a single scan of the table.
         // some code goes here
-        cost = ioCostPerPage;
-        tableid = tableid;
+        this.cost = ioCostPerPage;
+        this.tableid = tableid;
+        
         //get dbfile
-        file = (HeapFile) Database.getCatalog().getDbFile(tableid);
+        hF = (HeapFile) (Database.getCatalog()).getDatabaseFile(tableid);
+
+        this.size = hF.getTupleDesc().numFields();
         //scan through tuples
+        // throws an exception...
         try{
             TransactionId tempid = new TransactionId();
             //create iterator
+            DbFileIterator temp;
+            temp = (hF.iterator(tempid));
+
+            //get statistics like min, max,
+            while (temp.hasNext()){
+                Tuple tup = temp.next();
+                if (this.max == null){//create array
+                    this.max = new int[size];
+                    this.min = new int[size];
+                }
+            }
             
         }catch(Exception e){
             

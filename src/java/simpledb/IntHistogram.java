@@ -3,7 +3,7 @@ package simpledb;
 /** A class to represent a fixed-width histogram over a single integer-based field.
  */
 public class IntHistogram {
-    private int buckets;
+    private int nbuckets;
     private int min;
     private int max;
     
@@ -35,7 +35,7 @@ public class IntHistogram {
     public IntHistogram(int buckets, int min, int max) {
     	// some code goes here
 
-    	this.buckets = buckets;
+    	this.nbuckets = buckets;
     	this.min = min;
     	this.max = max;
     	
@@ -51,7 +51,7 @@ public class IntHistogram {
     	    left = new int[temp];
     	    right = new int[temp];
     	    bucket_size = 1;
-    	    this.buckets = temp;
+    	    this.nbuckets = temp;
             //System.out.println("this is legal");
             // buckets = temp;
     	}
@@ -75,6 +75,9 @@ public class IntHistogram {
     public void addValue(int v) {
         //System.out.println(buckets);
     	// some code goes here
+
+        System.out.println("The number of buckets is " + this.nbuckets);
+        
     	if (v < this.min || v > this.max){
     	    //invalid, do nothing
     	}
@@ -86,7 +89,7 @@ public class IntHistogram {
     	    //bucket index = v-min/bucket_size
     	    int temp;
     	    if (v == this.max){
-    	        temp = this.buckets -1; //last bucket
+    	        temp = this.nbuckets -1; //last bucket
     	    }
     	    else if (v == this.min){
     	        temp = 0;                  //first bucket
@@ -95,13 +98,20 @@ public class IntHistogram {
     	        //calculate the index, scale with size of bucket
     	        double tempd = (v - this.min)/bucket_size;
     	        temp = (int)Math.round(tempd); //index needs to be int
-    	        if (temp == buckets){//if we happen to round up to buckets, that index doesn't exist
+    	        if (temp == this.nbuckets){//if we happen to round up to buckets, that index doesn't exist
     	            temp -= 1;//start from 0
     	        }
     	    }//end else
-    	    System.out.println(temp + " " + buckets + " " + v);
+
+            //creates temp which points to where v is
+
+
+            //test
+    	    System.out.println(temp + " " + nbuckets + " " + v);
+
+
     	    //temp is index of bucket to add
-    	    hintogram[temp]+=1; //h_b
+    	    hintogram[temp]+=1; //h_b add to height
     	    //new hintogram bucket?
     	    if (hintogram[temp] == 1){
     	        //new bar, new data
@@ -111,6 +121,8 @@ public class IntHistogram {
     	    else{
     	        //if bucket size is larger than 1 then we need to update some data
     	        //don't have to if size is equal 1
+                //size == 1 if there is smaller range than num bukets
+                //therefore there can only be one value
     	        if (this.bucket_size != 1){
     	            if (v < left[temp]){
         	            //update left
@@ -159,7 +171,7 @@ public class IntHistogram {
     	        double tempd = (v - this.min)/bucket_size;
     	        
     	        index = (int)Math.round(tempd); //index needs to be int
-    	        if (index == buckets){
+    	        if (index == this.nbuckets){
     	            index -= 1;
     	        }
         	    //now we have hintogram[index]
@@ -193,13 +205,13 @@ public class IntHistogram {
             int index;
 	        double tempd = ((double)(v - this.min))/(double)bucket_size;
 	        index = (int)Math.round(tempd); //index needs to be int
-	        if (index == buckets){
+	        if (index == this.nbuckets){
 	            index -= 1;
 	        }
 	        if (right[index] > v){
 	            double ans = 0.0;
 	            //starting from bucket for V, go through all buckets and aggreate selectivity
-                for (int i = index; i < this.buckets; i++){
+                for (int i = index; i < this.nbuckets; i++){
                     double bS = ((double) this.hintogram[i])/(double)values;
                     
                     int width;
@@ -225,7 +237,7 @@ public class IntHistogram {
 	            //similar to previous code, but we start fro mthe next index
 	            double ans = 0.0;
 	            //starting from bucket for V, go through all buckets and aggreate selectivity
-                for (int i = index; i < this.buckets; i++){
+                for (int i = index; i < this.nbuckets; i++){
                     double bS = ((double) this.hintogram[i])/(double)values;
                     
                     int width;
