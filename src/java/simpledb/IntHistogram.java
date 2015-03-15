@@ -178,7 +178,7 @@ public class IntHistogram {
 
         	    double temp2 =  (double)hintogram[index]/(double)values;
               
-              System.out.println(temp2);
+              //System.out.println(temp2);
               if (temp2 < 0.0) temp2 = 0;
               if (temp2 > 1.0) temp2 = 1.0;
               return temp2;

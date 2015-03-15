@@ -194,11 +194,12 @@ public class JoinOptimizerTest extends SimpleDbTestBase {
 
 		// On a primary key, the cardinality is well-defined and exact (should be size of fk table)
                 //   BUT we had a bug in lab 4 in 2009 that suggested should be size of pk table, so accept either
+			System.out.println("cardinality1 is " + cardinality);
                 Assert.assertTrue(cardinality == 800 || cardinality == 2000);
 
 		cardinality = j.estimateJoinCardinality(new LogicalJoinNode("t1", "t2", "c"+Integer.toString(3), "c"+Integer.toString(4), Predicate.Op.EQUALS),
 												stats1.estimateTableCardinality(0.8), stats2.estimateTableCardinality(0.2), false, true,TableStats.getStatsMap());
-
+		System.out.println("cardinality2 is " + cardinality);
 	         Assert.assertTrue(cardinality == 800 || cardinality == 2000);
 	}
 	

@@ -3,98 +3,240 @@ Buildfile: /home/saasbook/Lab3/CS143/build.xml
 compile:
 
 testcompile:
+    [javac] Compiling 1 source file to /home/saasbook/Lab3/CS143/bin/test
 
 runtest:
-    [junit] Running simpledb.TableStatsTest
-    [junit] Testsuite: simpledb.TableStatsTest
-    [junit] Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 2.861 sec
-    [junit] Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 2.861 sec
+    [junit] Running simpledb.JoinOptimizerTest
+    [junit] Testsuite: simpledb.JoinOptimizerTest
+    [junit] Tests run: 5, Failures: 0, Errors: 3, Time elapsed: 21.721 sec
+    [junit] Tests run: 5, Failures: 0, Errors: 3, Time elapsed: 21.721 sec
     [junit] ------------- Standard Output ---------------
-    [junit] 0.026470588235294117
-    [junit] 0.026470588235294117
-    [junit] 0.026470588235294117
-    [junit] 0.028431372549019607
-    [junit] 0.026470588235294117
-    [junit] 0.028431372549019607
-    [junit] 0.026470588235294117
-    [junit] 0.028431372549019607
-    [junit] 0.03431372549019608
-    [junit] 0.03431372549019608
-    [junit] 0.03431372549019608
-    [junit] 0.030392156862745098
-    [junit] 0.03431372549019608
-    [junit] 0.030392156862745098
-    [junit] 0.03431372549019608
-    [junit] 0.030392156862745098
-    [junit] 0.04019607843137255
-    [junit] 0.04019607843137255
-    [junit] 0.04019607843137255
-    [junit] 0.03137254901960784
-    [junit] 0.04019607843137255
-    [junit] 0.03137254901960784
-    [junit] 0.04019607843137255
-    [junit] 0.03137254901960784
-    [junit] 0.029411764705882353
-    [junit] 0.029411764705882353
-    [junit] 0.029411764705882353
-    [junit] 0.03333333333333333
-    [junit] 0.029411764705882353
-    [junit] 0.03333333333333333
-    [junit] 0.029411764705882353
-    [junit] 0.03333333333333333
-    [junit] 0.027450980392156862
-    [junit] 0.027450980392156862
-    [junit] 0.027450980392156862
-    [junit] 0.03333333333333333
-    [junit] 0.027450980392156862
-    [junit] 0.03333333333333333
-    [junit] 0.027450980392156862
-    [junit] 0.03333333333333333
-    [junit] 0.03431372549019608
-    [junit] 0.03431372549019608
-    [junit] 0.03431372549019608
-    [junit] 0.03333333333333333
-    [junit] 0.03431372549019608
-    [junit] 0.03333333333333333
-    [junit] 0.03431372549019608
-    [junit] 0.03333333333333333
-    [junit] 0.03823529411764706
-    [junit] 0.03823529411764706
-    [junit] 0.03823529411764706
-    [junit] 0.03333333333333333
-    [junit] 0.03823529411764706
-    [junit] 0.03333333333333333
-    [junit] 0.03823529411764706
-    [junit] 0.03333333333333333
-    [junit] 0.030392156862745098
-    [junit] 0.030392156862745098
-    [junit] 0.030392156862745098
-    [junit] 0.03627450980392157
-    [junit] 0.030392156862745098
-    [junit] 0.03627450980392157
-    [junit] 0.030392156862745098
-    [junit] 0.03627450980392157
-    [junit] 0.03725490196078431
-    [junit] 0.03725490196078431
-    [junit] 0.03725490196078431
-    [junit] 0.029411764705882353
-    [junit] 0.03725490196078431
-    [junit] 0.029411764705882353
-    [junit] 0.03725490196078431
-    [junit] 0.029411764705882353
-    [junit] 0.03725490196078431
-    [junit] 0.03725490196078431
-    [junit] 0.03725490196078431
-    [junit] 0.020588235294117647
-    [junit] 0.03725490196078431
-    [junit] 0.020588235294117647
-    [junit] 0.03725490196078431
-    [junit] 0.020588235294117647
+    [junit] tableId1: -902777845
+    [junit] tableId2: -301336342
+    [junit] Added scan of table bigTable
+    [junit] Added scan of table a
+    [junit] Added scan of table b
+    [junit] Added scan of table c
+    [junit] Added scan of table d
+    [junit] Added scan of table e
+    [junit] Added scan of table f
+    [junit] Added scan of table g
+    [junit] Added scan of table h
+    [junit] Added scan of table i
+    [junit] Added scan of table j
+    [junit] Added scan of table k
+    [junit] Added scan of table l
+    [junit] Added scan of table m
+    [junit] Added scan of table n
+    [junit] Added join between bigTable.c0 and n.c0
+    [junit] Added join between a.c1 and b.c1
+    [junit] Added join between b.c0 and c.c0
+    [junit] Added join between c.c1 and d.c1
+    [junit] Added join between d.c0 and e.c0
+    [junit] Added join between e.c1 and f.c1
+    [junit] Added join between f.c0 and g.c0
+    [junit] Added join between g.c1 and h.c1
+    [junit] Added join between h.c0 and i.c0
+    [junit] Added join between i.c1 and j.c1
+    [junit] Added join between j.c0 and k.c0
+    [junit] Added join between k.c1 and l.c1
+    [junit] Added join between l.c0 and m.c0
+    [junit] Added join between m.c1 and n.c1
+    [junit] Aggregate field is a.c0, agg fun is : COUNT
+    [junit] Added select list field a.c0
+    [junit] 	 with aggregator COUNT
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] tableId1: 287536234
+    [junit] tableId2: 1489079724
+    [junit] Added scan of table a
+    [junit] Added scan of table b
+    [junit] Added scan of table c
+    [junit] Added scan of table d
+    [junit] Added join between a.c1 and b.c1
+    [junit] Added join between b.c0 and c.c0
+    [junit] Added join between c.c1 and d.c1
+    [junit] Aggregate field is a.c0, agg fun is : COUNT
+    [junit] Added select list field a.c0
+    [junit] 	 with aggregator COUNT
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] tableId1: -204861713
+    [junit] tableId2: 584027119
+    [junit] Added scan of table t1
+    [junit] Added scan of table t2
+    [junit] Added join between t1.c1 and t2.c2
+    [junit] Added select list field null.*
+    [junit] Added scan of table t1
+    [junit] Added scan of table t2
+    [junit] Added join between t1.c1 and t2.c2
+    [junit] Added select list field null.*
+    [junit] Added scan of table t1
+    [junit] Added scan of table t2
+    [junit] Added join between t1.c3 and t2.c4
+    [junit] Added select list field null.*
+    [junit] Added scan of table t1
+    [junit] Added scan of table t2
+    [junit] Added join between t1.c8 and t2.c7
+    [junit] Added select list field null.*
+    [junit] tableId1: 1340348320
+    [junit] tableId2: -485915370
+    [junit] Added scan of table t1
+    [junit] Added scan of table t2
+    [junit] Added join between t1.c8 and t2.c7
+    [junit] Added select list field null.*
+    [junit] b
+    [junit] cardinality1 is 2000.0
+    [junit] c
+    [junit] cardinality2 is 800.0
+    [junit] tableId1: 1894523620
+    [junit] tableId2: -298296042
+    [junit] Added scan of table emp
+    [junit] Added scan of table dept
+    [junit] Added scan of table hobbies
+    [junit] Added scan of table hobby
+    [junit] Added join between emp.c1 and dept.c0
+    [junit] Added join between hobbies.c0 and emp.c2
+    [junit] Added join between hobbies.c1 and hobby.c0
+    [junit] Added select list field null.*
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
+    [junit] d
     [junit] ------------- ---------------- ---------------
     [junit] 
-    [junit] Testcase: estimateScanCostTest took 2.814 sec
-    [junit] Testcase: estimateTableCardinalityTest took 0.012 sec
-    [junit] Testcase: estimateSelectivityTest took 0.012 sec
-
-BUILD SUCCESSFUL
-Total time: 4 seconds
+    [junit] Testcase: bigOrderJoinsTest took 18.996 sec
+    [junit] 	Caused an ERROR
+    [junit] null
+    [junit] java.lang.NullPointerException
+    [junit] 	at simpledb.JoinOptimizerTest.bigOrderJoinsTest(JoinOptimizerTest.java:404)
+    [junit] 	at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:334)
+    [junit] 	at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:334)
+    [junit] 	at java.util.concurrent.FutureTask.run(FutureTask.java:166)
+    [junit] 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1146)
+    [junit] 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+    [junit] 	at java.lang.Thread.run(Thread.java:701)
+    [junit] 
+    [junit] Testcase: nonequalityOrderJoinsTest took 0.204 sec
+    [junit] 	Caused an ERROR
+    [junit] null
+    [junit] java.lang.NullPointerException
+    [junit] 	at simpledb.JoinOptimizerTest.nonequalityOrderJoinsTest(JoinOptimizerTest.java:465)
+    [junit] 
+    [junit] Testcase: estimateJoinCostTest took 0.172 sec
+    [junit] Testcase: estimateJoinCardinality took 0.153 sec
+    [junit] Testcase: orderJoinsTest took 2.163 sec
+    [junit] 	Caused an ERROR
+    [junit] null
+    [junit] java.lang.NullPointerException
+    [junit] 	at simpledb.JoinOptimizerTest.orderJoinsTest(JoinOptimizerTest.java:276)
+    [junit] 
