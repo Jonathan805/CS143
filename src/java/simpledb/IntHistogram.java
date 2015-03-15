@@ -8,8 +8,7 @@ public class IntHistogram {
     private int max;
     
     private int hintogram[];
-    private int left[];// b.left
-    private int right[];
+   
     
     
     private int values;
@@ -43,29 +42,29 @@ public class IntHistogram {
     	
     	//create the histogram with (buckets)
     	//careful if we have more buckets than we do range
-    	int temp = max - min + 1; // number of ints in our range
-        //for test inthistogram(10000, 0,100)
+    	int temp = max - min +1; // number of ints in our range
+        //for test inthistogram(10000, 0,100) // 100 values
         //we should have 10k buckets but only 100 values, so create 100 buckets
     	if ( temp < buckets){//we have small range, so each int will get a bucket
     	    hintogram = new int[temp];
-    	    left = new int[temp];
-    	    right = new int[temp];
+    	    
     	    bucket_size = 1;
     	    this.nbuckets = temp;
             //System.out.println("this is legal");
             // buckets = temp;
     	}
     	else{//buckets > temp , so bucket size > 1, use buckets
-    	    hintogram = new int[buckets];
-    	    left = new int[buckets];
-    	    right = new int [buckets];
-    	    bucket_size =( double)temp/(double)(buckets);
-    	    
+    	    hintogram = new int[this.buckets];
+    	    bucket_size =( double)temp/(double)(this.buckets);
     	}
     	
     	
     	//we have no values :(
     	values = 0;
+    	//initialize the array
+    	for (int i = 0; i < temp; i++){
+    		hintogram[i] = 0;
+    	}
     }
 
     /**
@@ -97,8 +96,10 @@ public class IntHistogram {
     	    else{
     	        //calculate the index, scale with size of bucket
     	        double tempd = (v - this.min)/bucket_size;
-    	        temp = (int)Math.round(tempd); //index needs to be int
+
+    	        temp = (int)temp; //index needs to be int, cast -> does rounding?
     	        if (temp == this.nbuckets){//if we happen to round up to buckets, that index doesn't exist
+
     	            temp -= 1;//start from 0
     	        }
     	    }//end else
@@ -113,27 +114,7 @@ public class IntHistogram {
     	    //temp is index of bucket to add
     	    hintogram[temp]+=1; //h_b add to height
     	    //new hintogram bucket?
-    	    if (hintogram[temp] == 1){
-    	        //new bar, new data
-    	        left[temp] = v;
-    	        right[temp] = v;
-    	    }
-    	    else{
-    	        //if bucket size is larger than 1 then we need to update some data
-    	        //don't have to if size is equal 1
-                //size == 1 if there is smaller range than num bukets
-                //therefore there can only be one value
-    	        if (this.bucket_size != 1){
-    	            if (v < left[temp]){
-        	            //update left
-        	            left[temp] = v;
-        	        }
-        	        if (v > right[temp]){
-        	            //update right
-        	            right[temp] = v;
-        	        }
-    	       }
-    	    }
+
     	}
     }
 
@@ -169,26 +150,28 @@ public class IntHistogram {
                 //convert V to bucket index and check that index
                 int index;
     	        double tempd = (v - this.min)/bucket_size;
-    	        
-    	        index = (int)Math.round(tempd); //index needs to be int
+
+    	        index = (int)(tempd); //index needs to be int
     	        if (index == this.nbuckets){
+
     	            index -= 1;
     	        }
         	    //now we have hintogram[index]
         	   //can be 0, can have width, 
         	   //sel = height/width/total num
         	   //diwth = right[index] - left[index]
-        	   if (bucket_size == 1){//width is 1
-        	        return (double)(hintogram[index]/values);
-        	        //   height
-        	        //   values
-        	   }
-        	   else{
-        	       int width = right[index] - left[index] +1;
-        	       return (double) (hintogram[index]/(width*values) );
-        	       //   height
-        	       //   width * values
-        	   }
+        	   //if (bucket_size == 1){//width is 1
+        	   //     return (double)(hintogram[index]/values);
+        	   //     //   height
+        	   //     //   values
+        	   //}
+        	   //else{
+        	   //   // int width = right[index] - left[index] +1;
+        	   //    return (double) (hintogram[index]/(width*values) );
+        	   //    //   height
+        	   //    //   width * values
+        	   //}
+        	   return ((double)hintogram[index]/(double)values);
             }//end if
         }//end equals
         else if (op == Predicate.Op.NOT_EQUALS){
@@ -208,57 +191,15 @@ public class IntHistogram {
 	        if (index == this.nbuckets){
 	            index -= 1;
 	        }
-	        if (right[index] > v){
-	            double ans = 0.0;
-	            //starting from bucket for V, go through all buckets and aggreate selectivity
-                for (int i = index; i < this.nbuckets; i++){
-                    double bS = ((double) this.hintogram[i])/(double)values;
-                    
-                    int width;
-                    if (bucket_size == 1){
-                        width =1;
-                    }
-                    else{
-                        width = right[i]- left[i] +1;
-                    }
-                    //if v is within a bucket, we need to estimate within the bucket, use the right value
-                    double buck_sel = 1.0;
-                    if (v > this.left[i]){
-                        
-                        buck_sel = ((double) (this.right[i] - v)/(double) width);
-                    }
-                    ans += bS * buck_sel;
-                    
-                }
-                return ans;
-	        }//end if right{index]
-	        else{
-	            //v is the greatest part of the histogram, we can include the whole thing
-	            //similar to previous code, but we start fro mthe next index
-	            double ans = 0.0;
-	            //starting from bucket for V, go through all buckets and aggreate selectivity
-                for (int i = index; i < this.nbuckets; i++){
-                    double bS = ((double) this.hintogram[i])/(double)values;
-                    
-                    int width;
-                    if (bucket_size == 1){
-                        width =1;
-                    }
-                    else{
-                        width = right[i]- left[i] +1;
-                    }
-                    //if v is within a bucket, we need to estimate within the bucket, use the right value
-                    double buck_sel = 1.0;
-                    if (v > this.left[i]){
-                        
-                        buck_sel = ((double) (this.right[i] - v)/(double) width);
-                    }
-                    ans += bS * buck_sel;
-                    
-                }
-                return ans;
-	            
-	        }//end else
+
+	     int count = 0;
+	     for (int i = index; i < this.buckets; i++){
+	     	//from this bucket to the end
+	     	count += hintogram[i];
+	     	
+	     }
+	        return (double)count/(double)values;
+
             
         }//end greater than
         else if (op == Predicate.Op.GREATER_THAN_OR_EQ){

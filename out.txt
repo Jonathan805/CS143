@@ -1,14 +1,13 @@
 Buildfile: /home/saasbook/Lab3/CS143/build.xml
 
 compile:
+    [javac] Compiling 1 source file to /home/saasbook/Lab3/CS143/bin/src
 
 testcompile:
-    [javac] Compiling 1 source file to /home/saasbook/Lab3/CS143/bin/test
 
 runtest:
     [junit] Running simpledb.IntHistogramTest
     [junit] Testsuite: simpledb.IntHistogramTest
-    [junit] Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
     [junit] Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
     [junit] 	at java.lang.StringCoding$StringDecoder.decode(StringCoding.java:151)
     [junit] 	at java.lang.StringCoding.decode(StringCoding.java:191)
@@ -21,7 +20,7 @@ runtest:
     [junit] Testsuite: simpledb.IntHistogramTest
     [junit] Tests run: 1, Failures: 0, Errors: 1, Time elapsed: 0 sec
     [junit] 
-    [junit] Testcase: orderOfGrowthTest took 0.007 sec
+    [junit] Testcase: orderOfGrowthTest took 0.006 sec
     [junit] 	Caused an ERROR
     [junit] Forked Java VM exited abnormally. Please note the time in the report does not reflect the time until the VM exit.
     [junit] junit.framework.AssertionFailedError: Forked Java VM exited abnormally. Please note the time in the report does not reflect the time until the VM exit.
