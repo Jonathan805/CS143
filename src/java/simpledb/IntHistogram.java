@@ -54,15 +54,15 @@ public class IntHistogram {
             // buckets = temp;
     	}
     	else{//buckets > temp , so bucket size > 1, use buckets
-    	    hintogram = new int[this.buckets];
-    	    bucket_size =( double)temp/(double)(this.buckets);
+    	    hintogram = new int[this.nbuckets];
+    	    bucket_size =( double)temp/(double)(this.nbuckets);
     	}
     	
     	
     	//we have no values :(
     	values = 0;
     	//initialize the array
-    	for (int i = 0; i < temp; i++){
+    	for (int i = 0; i < this.nbuckets; i++){
     		hintogram[i] = 0;
     	}
     }
@@ -75,7 +75,7 @@ public class IntHistogram {
         //System.out.println(buckets);
     	// some code goes here
 
-        System.out.println("The number of buckets is " + this.nbuckets);
+        //ystem.out.println("The number of buckets is " + this.nbuckets);
         
     	if (v < this.min || v > this.max){
     	    //invalid, do nothing
@@ -95,9 +95,10 @@ public class IntHistogram {
     	    }
     	    else{
     	        //calculate the index, scale with size of bucket
+
     	        double tempd = (v - this.min)/bucket_size;
 
-    	        temp = (int)temp; //index needs to be int, cast -> does rounding?
+    	        temp = (int)tempd; //index needs to be int, cast -> does rounding?
     	        if (temp == this.nbuckets){//if we happen to round up to buckets, that index doesn't exist
 
     	            temp -= 1;//start from 0
@@ -108,7 +109,7 @@ public class IntHistogram {
 
 
             //test
-    	    System.out.println(temp + " " + nbuckets + " " + v);
+    	    //System.out.println(temp + " " + nbuckets + " " + v);
 
 
     	    //temp is index of bucket to add
@@ -129,7 +130,7 @@ public class IntHistogram {
      * @return Predicted selectivity of this particular operator and value
      */
     public double estimateSelectivity(Predicate.Op op, int v) {
-        System.out.println("here");
+        //System.out.println("here");
     	// some code goes here
         //return -1.0;
         //OP can equal Predicate.Op.EQUALS
@@ -141,7 +142,7 @@ public class IntHistogram {
         
         if (op == Predicate.Op.EQUALS){
             //check if in range
-            System.out.println("in equals");
+            //System.out.println("in equals");
             if (v > this.max || v < this.max){
                 //no selectivity at all!
                 return 0.0;
@@ -156,22 +157,15 @@ public class IntHistogram {
 
     	            index -= 1;
     	        }
-        	    //now we have hintogram[index]
-        	   //can be 0, can have width, 
-        	   //sel = height/width/total num
-        	   //diwth = right[index] - left[index]
-        	   //if (bucket_size == 1){//width is 1
-        	   //     return (double)(hintogram[index]/values);
-        	   //     //   height
-        	   //     //   values
-        	   //}
-        	   //else{
-        	   //   // int width = right[index] - left[index] +1;
-        	   //    return (double) (hintogram[index]/(width*values) );
-        	   //    //   height
-        	   //    //   width * values
-        	   //}
-        	   return ((double)hintogram[index]/(double)values);
+        	    
+                double a = hintogram[index];
+                double b = values;
+                System.out.println("value of v is" + a);
+                System.out.println("total buckets are" + b);
+                System.out.println("sel = " + (double)(a/b));
+                double c = (a/b);
+                System.out.println("c is " + c);
+        	    return c;
             }//end if
         }//end equals
         else if (op == Predicate.Op.NOT_EQUALS){
@@ -193,7 +187,7 @@ public class IntHistogram {
 	        }
 
 	     int count = 0;
-	     for (int i = index; i < this.buckets; i++){
+	     for (int i = index; i < this.nbuckets; i++){
 	     	//from this bucket to the end
 	     	count += hintogram[i];
 	     	

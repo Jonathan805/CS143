@@ -8,22 +8,19 @@ testcompile:
 runtest:
     [junit] Running simpledb.IntHistogramTest
     [junit] Testsuite: simpledb.IntHistogramTest
-    [junit] Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
-    [junit] 	at java.lang.StringCoding$StringDecoder.decode(StringCoding.java:151)
-    [junit] 	at java.lang.StringCoding.decode(StringCoding.java:191)
-    [junit] 	at java.lang.StringCoding.decode(StringCoding.java:202)
-    [junit] 	at java.lang.String.<init>(String.java:578)
-    [junit] 	at java.lang.String.<init>(String.java:601)
-    [junit] 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.run(JUnitTestRunner.java:547)
-    [junit] 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.launch(JUnitTestRunner.java:1052)
-    [junit] 	at org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner.main(JUnitTestRunner.java:906)
-    [junit] Testsuite: simpledb.IntHistogramTest
-    [junit] Tests run: 1, Failures: 0, Errors: 1, Time elapsed: 0 sec
+    [junit] Tests run: 1, Failures: 1, Errors: 0, Time elapsed: 0.069 sec
+    [junit] Tests run: 1, Failures: 1, Errors: 0, Time elapsed: 0.069 sec
+    [junit] ------------- Standard Output ---------------
+    [junit] value of v is5.0
+    [junit] total buckets are51.0
+    [junit] sel = 0.09803921568627451
+    [junit] c is 0.09803921568627451
+    [junit] 0.0
+    [junit] ------------- ---------------- ---------------
     [junit] 
-    [junit] Testcase: orderOfGrowthTest took 0.006 sec
-    [junit] 	Caused an ERROR
-    [junit] Forked Java VM exited abnormally. Please note the time in the report does not reflect the time until the VM exit.
-    [junit] junit.framework.AssertionFailedError: Forked Java VM exited abnormally. Please note the time in the report does not reflect the time until the VM exit.
+    [junit] Testcase: negativeRangeTest took 0.027 sec
+    [junit] 	FAILED
     [junit] 
-    [junit] Running simpledb.IntHistogramTest
-    [junit] Tests run: 1, Failures: 0, Errors: 1, Time elapsed: 0 sec
+    [junit] junit.framework.AssertionFailedError: 
+    [junit] 	at simpledb.IntHistogramTest.negativeRangeTest(IntHistogramTest.java:61)
+    [junit] 

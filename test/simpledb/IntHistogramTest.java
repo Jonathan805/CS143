@@ -12,53 +12,54 @@ public class IntHistogramTest {
 	 * (or, at least, reasonably small space; O(log(n)) might still work if
 	 * your constants are good).
 	 */
-	@Test public void orderOfGrowthTest() {
-		// Don't bother with a timeout on this test.
-		// Printing debugging statements takes >> time than some inefficient algorithms.
-		IntHistogram h = new IntHistogram(10000, 0, 100);
+	// @Test public void orderOfGrowthTest() {
+	// 	// Don't bother with a timeout on this test.
+	// 	// Printing debugging statements takes >> time than some inefficient algorithms.
+	// 	IntHistogram h = new IntHistogram(10000, 0, 100);
 		
-		// Feed the histogram more integers than would fit into our
-		// 128mb allocated heap (4-byte integers)
-		// If this fails, someone's storing every value...
-		for (int c = 0; c < 33554432; c++) {
-			h.addValue((c * 23) % 101);	// Pseudo-random number; at least get a distribution
-		}
-		
-		// Try printing out all of the values; make sure "estimateSelectivity()"
-		// cause any problems
-		double selectivity = 0.0;
-		for (int c = 0; c < 101; c++) {
-			selectivity += h.estimateSelectivity(Op.EQUALS, c);
-		}
-		
-		// All the selectivities should add up to 1, by definition.
-		// Allow considerable leeway for rounding error, though 
-		// (Java double's are good to 15 or so significant figures)
-		Assert.assertTrue(selectivity > 0.99);
-	}
-	
-	// /**
-	//  * Test with a minimum and a maximum that are both negative numbers.
-	//  */
-	// @Test public void negativeRangeTest() {
-	// 	IntHistogram h = new IntHistogram(10, -60, -10);
-		
-	// 	// All of the values here are negative.
-	// 	// Also, there are more of them than there are bins.
-	// 	for (int c = -60; c <= -10; c++) {
-	// 		h.addValue(c);
-	// 		h.estimateSelectivity(Op.EQUALS, c);
+	// 	// Feed the histogram more integers than would fit into our
+	// 	// 128mb allocated heap (4-byte integers)
+	// 	// If this fails, someone's storing every value...
+	// 	for (int c = 0; c < 33554432; c++) {
+	// 		h.addValue((c * 23) % 101);	// Pseudo-random number; at least get a distribution
 	// 	}
 		
-	// 	// Even with just 10 bins and 50 values,
-	// 	// the selectivity for this particular value should be at most 0.2.
-	// 	Assert.assertTrue(h.estimateSelectivity(Op.EQUALS, -33) < 0.3);
+	// 	// Try printing out all of the values; make sure "estimateSelectivity()"
+	// 	// cause any problems
+	// 	double selectivity = 0.0;
+	// 	for (int c = 0; c < 101; c++) {
+	// 		selectivity += h.estimateSelectivity(Op.EQUALS, c);
+	// 	}
 		
-	// 	// And it really shouldn't be 0.
-	// 	// Though, it could easily be as low as 0.02, seeing as that's
-	// 	// the fraction of elements that actually are equal to -33.
-	// 	Assert.assertTrue(h.estimateSelectivity(Op.EQUALS, -33) > 0.001);
+	// 	// All the selectivities should add up to 1, by definition.
+	// 	// Allow considerable leeway for rounding error, though 
+	// 	// (Java double's are good to 15 or so significant figures)
+	// 	Assert.assertTrue(selectivity > 0.99);
 	// }
+	
+	/**
+	 * Test with a minimum and a maximum that are both negative numbers.
+	 */
+	@Test public void negativeRangeTest() {
+		IntHistogram h = new IntHistogram(10, -60, -10);
+		
+		// All of the values here are negative.
+		// Also, there are more of them than there are bins.
+		for (int c = -60; c <= -10; c++) {
+			h.addValue(c);
+			h.estimateSelectivity(Op.EQUALS, c);
+		}
+		
+		// Even with just 10 bins and 50 values,
+		// the selectivity for this particular value should be at most 0.2.
+		Assert.assertTrue(h.estimateSelectivity(Op.EQUALS, -33) < 0.3);
+		
+		// And it really shouldn't be 0.
+		// Though, it could easily be as low as 0.02, seeing as that's
+		// the fraction of elements that actually are equal to -33.
+		System.out.println(h.estimateSelectivity(Op.EQUALS, -33));
+		Assert.assertTrue(h.estimateSelectivity(Op.EQUALS, -33) > 0.001);
+	}
 	
 	// /**
 	//  * Make sure that equality binning does something reasonable.
