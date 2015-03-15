@@ -1,28 +1,100 @@
 Buildfile: /home/saasbook/Lab3/CS143/build.xml
 
 compile:
-    [javac] Compiling 1 source file to /home/saasbook/Lab3/CS143/bin/src
 
 testcompile:
 
 runtest:
-    [junit] Running simpledb.IntHistogramTest
-    [junit] Testsuite: simpledb.IntHistogramTest
-    [junit] Tests run: 8, Failures: 0, Errors: 0, Time elapsed: 0.73 sec
-    [junit] Tests run: 8, Failures: 0, Errors: 0, Time elapsed: 0.73 sec
+    [junit] Running simpledb.TableStatsTest
+    [junit] Testsuite: simpledb.TableStatsTest
+    [junit] Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 2.861 sec
+    [junit] Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 2.861 sec
     [junit] ------------- Standard Output ---------------
-    [junit] Sel is 0.0
-    [junit] Sel is 1.0
+    [junit] 0.026470588235294117
+    [junit] 0.026470588235294117
+    [junit] 0.026470588235294117
+    [junit] 0.028431372549019607
+    [junit] 0.026470588235294117
+    [junit] 0.028431372549019607
+    [junit] 0.026470588235294117
+    [junit] 0.028431372549019607
+    [junit] 0.03431372549019608
+    [junit] 0.03431372549019608
+    [junit] 0.03431372549019608
+    [junit] 0.030392156862745098
+    [junit] 0.03431372549019608
+    [junit] 0.030392156862745098
+    [junit] 0.03431372549019608
+    [junit] 0.030392156862745098
+    [junit] 0.04019607843137255
+    [junit] 0.04019607843137255
+    [junit] 0.04019607843137255
+    [junit] 0.03137254901960784
+    [junit] 0.04019607843137255
+    [junit] 0.03137254901960784
+    [junit] 0.04019607843137255
+    [junit] 0.03137254901960784
+    [junit] 0.029411764705882353
+    [junit] 0.029411764705882353
+    [junit] 0.029411764705882353
+    [junit] 0.03333333333333333
+    [junit] 0.029411764705882353
+    [junit] 0.03333333333333333
+    [junit] 0.029411764705882353
+    [junit] 0.03333333333333333
+    [junit] 0.027450980392156862
+    [junit] 0.027450980392156862
+    [junit] 0.027450980392156862
+    [junit] 0.03333333333333333
+    [junit] 0.027450980392156862
+    [junit] 0.03333333333333333
+    [junit] 0.027450980392156862
+    [junit] 0.03333333333333333
+    [junit] 0.03431372549019608
+    [junit] 0.03431372549019608
+    [junit] 0.03431372549019608
+    [junit] 0.03333333333333333
+    [junit] 0.03431372549019608
+    [junit] 0.03333333333333333
+    [junit] 0.03431372549019608
+    [junit] 0.03333333333333333
+    [junit] 0.03823529411764706
+    [junit] 0.03823529411764706
+    [junit] 0.03823529411764706
+    [junit] 0.03333333333333333
+    [junit] 0.03823529411764706
+    [junit] 0.03333333333333333
+    [junit] 0.03823529411764706
+    [junit] 0.03333333333333333
+    [junit] 0.030392156862745098
+    [junit] 0.030392156862745098
+    [junit] 0.030392156862745098
+    [junit] 0.03627450980392157
+    [junit] 0.030392156862745098
+    [junit] 0.03627450980392157
+    [junit] 0.030392156862745098
+    [junit] 0.03627450980392157
+    [junit] 0.03725490196078431
+    [junit] 0.03725490196078431
+    [junit] 0.03725490196078431
+    [junit] 0.029411764705882353
+    [junit] 0.03725490196078431
+    [junit] 0.029411764705882353
+    [junit] 0.03725490196078431
+    [junit] 0.029411764705882353
+    [junit] 0.03725490196078431
+    [junit] 0.03725490196078431
+    [junit] 0.03725490196078431
+    [junit] 0.020588235294117647
+    [junit] 0.03725490196078431
+    [junit] 0.020588235294117647
+    [junit] 0.03725490196078431
+    [junit] 0.020588235294117647
     [junit] ------------- ---------------- ---------------
     [junit] 
-    [junit] Testcase: opEqualsTest took 0.009 sec
-    [junit] Testcase: negativeRangeTest took 0.001 sec
-    [junit] Testcase: opGreaterThanTest took 0.001 sec
-    [junit] Testcase: opLessThanTest took 0 sec
-    [junit] Testcase: opGreaterThanOrEqualsTest took 0 sec
-    [junit] Testcase: opLessThanOrEqualsTest took 0 sec
-    [junit] Testcase: opNotEqualsTest took 0.001 sec
-    [junit] Testcase: orderOfGrowthTest took 0.669 sec
+    [junit] Testcase: estimateScanCostTest took 2.814 sec
+    [junit] Testcase: estimateTableCardinalityTest took 0.012 sec
+    [junit] Testcase: estimateSelectivityTest took 0.012 sec
 
 BUILD SUCCESSFUL
-Total time: 3 seconds
+Total time: 4 seconds

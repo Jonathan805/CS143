@@ -175,17 +175,20 @@ public class IntHistogram {
                 double c = 0;
                 c = ((double)a/(double)b);
                 //System.out.println("c is " + c);
+
         	    double temp2 =  (double)hintogram[index]/(double)values;
+              
+              System.out.println(temp2);
               if (temp2 < 0.0) temp2 = 0;
-            if (temp2 > 1.0) temp2 = 1.0;
-            return temp2;
+              if (temp2 > 1.0) temp2 = 1.0;
+              return temp2;
             }//end if
         }//end equals
         else if (op == Predicate.Op.NOT_EQUALS){
             //not equal means excluding value for V
             //for histogram we can sum the values greather thana nd less than v
             double temp2 = (estimateSelectivity(Predicate.Op.GREATER_THAN, v) + estimateSelectivity(Predicate.Op.LESS_THAN, v));
-            System.out.println("Sel is " +temp2);
+            //System.out.println("Sel is " +temp2);
             if (temp2 < 0.0) temp2 = 0;
             if (temp2 > 1.0) temp2 = 1.0;
             return temp2;

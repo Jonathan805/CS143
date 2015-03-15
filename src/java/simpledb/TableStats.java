@@ -135,7 +135,7 @@ public class TableStats {
 
 
             }//end while
-            System.out.println(tupnum);
+            //System.out.println(tupnum);
 
             //create histograms
             iHist = new IntHistogram[size];
@@ -156,11 +156,11 @@ public class TableStats {
                 }
                 
             }//end for
-            System.out.println("got here");
+            //System.out.println("got here");
 
             //go back to beginning
             temp.rewind();
-            System.out.println("rewinded inc onstructor");
+            //System.out.println("rewinded inc onstructor");
             while (temp.hasNext()){
                 
                 Tuple tup = temp.next();
@@ -287,7 +287,7 @@ public class TableStats {
             int val = i_f.getValue();
             if (temp == null)
                 System.out.println("you done goofed");
-            System.out.println( temp.estimateSelectivity(op, val));
+            //System.out.println( temp.estimateSelectivity(op, val));
             return temp.estimateSelectivity(op, val);
         }
         if (constant.getType() == Type.STRING_TYPE){

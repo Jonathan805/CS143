@@ -84,7 +84,7 @@ public class BufferPool {
             if (numInUse >= NP) {  // if the buffer pool is full
                 evictPage();
                 pageEvicted = true;
-                System.out.println("evcit page" + numInUse);
+                //System.out.println("evcit page" + numInUse);
             }
             // load a page from disk through Dbfile's readPage method
             DbFile databaseFile =  Database.getCatalog().getDatabaseFile(pid.getTableId());

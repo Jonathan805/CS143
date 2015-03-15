@@ -47,44 +47,44 @@ public class TableStatsTest extends SimpleDbTestBase {
 	 *   +linear in IO_COST when numPages is constant
 	 *   +quadratic when IO_COST and numPages increase linearly.
 	 */
-	// @Test public void estimateScanCostTest() throws IOException, DbException, TransactionAbortedException {
-	// 	Object[] ret;
-	// 	int[] ioCosts = new int[20];
-	// 	int[] pageNums = new int[ioCosts.length];
-	// 	// IO_COST constant, numPages change
-	// 	for(int i = 0; i < ioCosts.length; ++i) {
-	// 		ioCosts[i] = 1;
-	// 		pageNums[i] = 3*(i+1);
-	// 	}
-	// 	double stats[] = getRandomTableScanCosts(pageNums, ioCosts);
-	// 	ret = SystemTestUtil.checkConstant(stats);
-	// 	Assert.assertEquals(ret[0], Boolean.FALSE);
-	// 	ret = SystemTestUtil.checkLinear(stats);
-	// 	Assert.assertEquals(ret[0], Boolean.TRUE);
-	// 	// numPages constant, IO_COST change
-	// 	for(int i = 0; i < ioCosts.length; ++i) {
-	// 		ioCosts[i] = 10*(i + 1);
-	// 		pageNums[i] = 3;
-	// 	}
-	// 	stats = getRandomTableScanCosts(pageNums, ioCosts);
-	// 	ret = SystemTestUtil.checkConstant(stats);
-	// 	Assert.assertEquals(ret[0], Boolean.FALSE);
-	// 	ret = SystemTestUtil.checkLinear(stats);
-	// 	Assert.assertEquals(ret[0], Boolean.TRUE);
-	// 	//numPages & IO_COST increase linearly
-	// 	for(int i = 0; i < ioCosts.length; ++i) {
-	// 		ioCosts[i] = 3*(i + 1);
-	// 		pageNums[i] = (i+1);
-	// 	}
-	// 	stats = getRandomTableScanCosts(pageNums, ioCosts);
-	// 	ret = SystemTestUtil.checkConstant(stats);
-	// 	Assert.assertEquals(ret[0], Boolean.FALSE);
-	// 	ret = SystemTestUtil.checkLinear(stats);
-	// 	Assert.assertEquals(ret[0], Boolean.FALSE);
-	// 	ret = SystemTestUtil.checkQuadratic(stats);
-	// 	Assert.assertEquals(ret[0], Boolean.TRUE);
+	@Test public void estimateScanCostTest() throws IOException, DbException, TransactionAbortedException {
+		Object[] ret;
+		int[] ioCosts = new int[20];
+		int[] pageNums = new int[ioCosts.length];
+		// IO_COST constant, numPages change
+		for(int i = 0; i < ioCosts.length; ++i) {
+			ioCosts[i] = 1;
+			pageNums[i] = 3*(i+1);
+		}
+		double stats[] = getRandomTableScanCosts(pageNums, ioCosts);
+		ret = SystemTestUtil.checkConstant(stats);
+		Assert.assertEquals(ret[0], Boolean.FALSE);
+		ret = SystemTestUtil.checkLinear(stats);
+		Assert.assertEquals(ret[0], Boolean.TRUE);
+		// numPages constant, IO_COST change
+		for(int i = 0; i < ioCosts.length; ++i) {
+			ioCosts[i] = 10*(i + 1);
+			pageNums[i] = 3;
+		}
+		stats = getRandomTableScanCosts(pageNums, ioCosts);
+		ret = SystemTestUtil.checkConstant(stats);
+		Assert.assertEquals(ret[0], Boolean.FALSE);
+		ret = SystemTestUtil.checkLinear(stats);
+		Assert.assertEquals(ret[0], Boolean.TRUE);
+		//numPages & IO_COST increase linearly
+		for(int i = 0; i < ioCosts.length; ++i) {
+			ioCosts[i] = 3*(i + 1);
+			pageNums[i] = (i+1);
+		}
+		stats = getRandomTableScanCosts(pageNums, ioCosts);
+		ret = SystemTestUtil.checkConstant(stats);
+		Assert.assertEquals(ret[0], Boolean.FALSE);
+		ret = SystemTestUtil.checkLinear(stats);
+		Assert.assertEquals(ret[0], Boolean.FALSE);
+		ret = SystemTestUtil.checkQuadratic(stats);
+		Assert.assertEquals(ret[0], Boolean.TRUE);
 		
-	// }
+	}
 	
 	/**
 	 * Verify the table-cardinality estimates based on a selectivity estimate
