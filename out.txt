@@ -4,26 +4,7 @@ compile:
 
 testcompile:
     [javac] Compiling 1 source file to /home/saasbook/Lab3/CS143/bin/test
-
-runtest:
-    [junit] Running simpledb.IntHistogramTest
-    [junit] Testsuite: simpledb.IntHistogramTest
-    [junit] Tests run: 8, Failures: 0, Errors: 0, Time elapsed: 0.508 sec
-    [junit] Tests run: 8, Failures: 0, Errors: 0, Time elapsed: 0.508 sec
-    [junit] ------------- Standard Output ---------------
-    [junit] selectivity is 0.2for 2
-    [junit] selectivity is 0.8for 3
-    [junit] selectivity is 0.8for 4
-    [junit] ------------- ---------------- ---------------
-    [junit] 
-    [junit] Testcase: orderOfGrowthTest took 0.435 sec
-    [junit] Testcase: negativeRangeTest took 0 sec
-    [junit] Testcase: opEqualsTest took 0 sec
-    [junit] Testcase: opGreaterThanTest took 0.001 sec
-    [junit] Testcase: opLessThanTest took 0 sec
-    [junit] Testcase: opGreaterThanOrEqualsTest took 0.001 sec
-    [junit] Testcase: opLessThanOrEqualsTest took 0.001 sec
-    [junit] Testcase: opNotEqualsTest took 0 sec
-
-BUILD SUCCESSFUL
-Total time: 4 seconds
+    [javac] /home/saasbook/Lab3/CS143/test/simpledb/TableStatsTest.java:154: reached end of file while parsing
+    [javac] }
+    [javac]  ^
+    [javac] 1 error

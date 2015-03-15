@@ -33,7 +33,7 @@ public class IntHistogram {
      */
     public IntHistogram(int buckets, int min, int max) {
     	// some code goes here
-
+      System.out.println("started constructor");
     	this.nbuckets = buckets;
     	this.min = min;
     	this.max = max;
@@ -65,8 +65,16 @@ public class IntHistogram {
     	for (int i = 0; i < this.nbuckets; i++){
     		hintogram[i] = 0;
     	}
+      System.out.println("ended IntHistogram constructor");
     }
 
+
+    public int retMax(){
+      return this.max;
+    }
+    public int retMin(){
+      return this.min;
+    }
     /**
      * Add a value to the set of values that you are keeping a histogram of.
      * @param v Value to add to the histogram

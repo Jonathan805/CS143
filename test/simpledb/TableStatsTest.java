@@ -150,5 +150,5 @@ public class TableStatsTest extends SimpleDbTestBase {
 			Assert.assertEquals(0.0, s.estimateSelectivity(col, Predicate.Op.LESS_THAN_OR_EQ, atMin), 0.05);
 			Assert.assertEquals(0.0, s.estimateSelectivity(col, Predicate.Op.LESS_THAN_OR_EQ, belowMin), 0.001);
 		}
-	}
+	// }
 }

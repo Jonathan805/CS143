@@ -18,6 +18,9 @@ public class TableStats {
     private int min[];
     private int max[];
     private int size;
+    private int tupnum;
+    private IntHistogram iHist[];
+    private StringHistogram jHist[];
     private static final ConcurrentHashMap<String, TableStats> statsMap = new ConcurrentHashMap<String, TableStats>();
 
     static final int IOCOSTPERPAGE = 1000;
@@ -92,11 +95,14 @@ public class TableStats {
         // some code goes here
         this.cost = ioCostPerPage;
         this.tableid = tableid;
-        
+        this.tupnum = 0;
         //get dbfile
         hF = (HeapFile) (Database.getCatalog()).getDatabaseFile(tableid);
 
-        this.size = hF.getTupleDesc().numFields();
+        //this.size = hF.getTupleDesc().numFields();
+
+        TupleDesc td = hF.getTupleDesc();
+        int size = td.numFields();
         //scan through tuples
         // throws an exception...
         try{
@@ -104,18 +110,83 @@ public class TableStats {
             //create iterator
             DbFileIterator temp;
             temp = (hF.iterator(tempid));
-
+            temp.open();
             //get statistics like min, max,
             while (temp.hasNext()){
                 Tuple tup = temp.next();
                 if (this.max == null){//create array
+                    System.out.println("arrays created");
                     this.max = new int[size];
                     this.min = new int[size];
                 }
-            }
-            
+                //for each element
+                System.out.println("before adding values");
+                for (int i = 0; i < size; i++){
+                    Field f = tup.getField(i);
+                    if (f.getType() == Type.INT_TYPE){
+                        int val = ((IntField)f).getValue();
+                        //compare this value iwth min[i] max [i]
+                        if ( val < min[i]) min[i] = val;
+                        if (val > max[i]) max[i] = val;
+                    }
+                }//now we have exact mins and maxs
+
+
+
+            }//end while
+
+            //create histograms
+            iHist = new IntHistogram[size];
+            jHist = new StringHistogram[size];
+            System.out.println("size is" + size);
+            //now initialize the histogram values
+            for (int i = 0; i < size; i+=1){
+                Type te = td.getFieldType(i);
+                if (te == Type.INT_TYPE){
+
+                    System.out.println(min[i]  + " " + max[i]) ;
+                    //givein our min and max calculated earlier, we can create inthistogram
+                    iHist[i] = new IntHistogram(NUM_HIST_BINS, min[i], max[i]);
+                    System.out.println("created intHist" + i);  
+                }
+                if (te == Type.STRING_TYPE){
+                    jHist[i] = new StringHistogram(NUM_HIST_BINS);
+                }
+                
+            }//end for
+            System.out.println("got here");
+
+            //go back to beginning
+            temp.rewind();
+            System.out.println("rewinded inc onstructor");
+            while (temp.hasNext()){
+                tupnum = tupnum + 1;
+                Tuple tup = temp.next();
+                //now we insert into histogram
+                //for each eleemtn
+                for (int i =0; i < size; i++){
+                    Field f = tup.getField(i);
+                    //check the types
+                    if (f.getType() == Type.INT_TYPE){
+                        //cast to int and insert into histo
+                        IntField i_f = (IntField)f;
+                        int val = i_f.getValue();
+                        IntHistogram tempih = iHist[i];
+                        tempih.addValue(val);
+                    }
+                    //add string value
+                    else if (f.getType() == Type.STRING_TYPE){
+                        StringField s_f = (StringField)f;
+                        String val = s_f.getValue();
+                        StringHistogram tempjh = jHist[i];
+                        tempjh.addValue(val);
+                    }
+                else{/*do nothing*/}
+                }//end for loop
+            }//end while
+            Database.getBufferPool().transactionComplete(tempid);
         }catch(Exception e){
-            
+            System.out.println("catch");
         }
     }
 
@@ -133,7 +204,10 @@ public class TableStats {
      */
     public double estimateScanCost() {
         // some code goes here
-        return 0;
+        //return 0;
+        //cost is file pages * cost per page
+        double temp = hF.numPages() * cost;
+        return temp;
     }
 
     /**
@@ -147,7 +221,13 @@ public class TableStats {
      */
     public int estimateTableCardinality(double selectivityFactor) {
         // some code goes here
-        return 0;
+        //return 0;
+        System.out.println("totalTuples is " + totalTuples());
+        double temp = totalTuples() * selectivityFactor;
+        //return temp;
+        //convert to int >.>
+        System.out.println("Cardinatlity is " + temp);
+        return (int)Math.floor(temp);
     }
 
     /**
@@ -162,7 +242,18 @@ public class TableStats {
      * */
     public double avgSelectivity(int field, Predicate.Op op) {
         // some code goes here
-        return 1.0;
+        //return 1.0;
+        //no value? use max - min/2?
+        double ans= 0.0;
+        IntHistogram tempih = iHist[field];
+        int avg = (tempih.retMax() - tempih.retMin())/2;
+        ans = tempih.estimateSelectivity(op, avg);
+        // StringHistogram tempsh = jHist[field];
+        // String savg  = (tempsh.maxVal() - tempsh.minVal())/2;
+        // ans = ans + tempsh.estimateSelectivity(op,savg);
+        // ans = ans /2; // could be over 1
+        return ans;
+
     }
 
     /**
@@ -180,7 +271,30 @@ public class TableStats {
      */
     public double estimateSelectivity(int field, Predicate.Op op, Field constant) {
         // some code goes here
-        return 1.0;
+        //return 1.0;
+
+        //check the type
+        //use field for which histogram
+        //use value of constant for value in estimate
+        if (constant.getType() == Type.INT_TYPE){
+            System.out.println("Checking" + field);
+            IntHistogram temp = iHist[field];
+            IntField i_f = (IntField)constant;
+            int val = i_f.getValue();
+            if (temp == null)
+                System.out.println("you done goofed");
+            return temp.estimateSelectivity(op, val);
+        }
+        if (constant.getType() == Type.STRING_TYPE){
+            System.out.println("Scanning" + field);
+            StringHistogram temp = jHist[field];
+            StringField s_f = (StringField)constant;
+            String val = s_f.getValue();
+            return temp.estimateSelectivity(op, val);
+        }
+        else{ 
+            System.out.println("bugg");
+            return 1.0;}
     }
 
     /**
@@ -188,7 +302,8 @@ public class TableStats {
      * */
     public int totalTuples() {
         // some code goes here
-        return 0;
+        //return 0;
+        return this.tupnum;
     }
 
 }
